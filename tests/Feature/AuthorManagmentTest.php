@@ -32,5 +32,7 @@ class AuthorManagmentTest extends TestCase
         $this->assertEquals('1989/05/25', $author->first()->dob->format('Y/m/d') );
 
     }
-   
+
+    
+
 }
