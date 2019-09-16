@@ -34,10 +34,7 @@ class BookManagmentTest extends TestCase
         
         // $this->withoutExceptionHandling();
 
-        $response = $this->post('/books', [
-            'title'=>'',
-            'author'=> 'Sergej'
-        ]);
+        $response = $this->post('/books', array_merge($this->data(), ['title' => '' ] ) );
         // assert that we got a successfull response
         $response->assertSessionHasErrors('title');
         // $this->assertArrayHasKey('title', $response);

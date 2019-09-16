@@ -1,6 +1,8 @@
 <?php
-
+use App\User;
+use App\Reservation;
 namespace App;
+
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +25,28 @@ class Book extends Model
             'name' => $author,
         ]))->id;
     }
+
+    public function checkout($user)
+    {
+        $this->reservations()->create([
+            'user_id' => $user->id,
+            'checked_out_at' => now(),
+        ]);
+    }
+    
+    public function ckeckin($user)
+    {
+        return $this->reservations()->where('user_id' , $user->id)
+            ->whereNotNull('checked_out_at')
+            ->whereNull('checked_in_at')
+            ->first();
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
 
 
 }
