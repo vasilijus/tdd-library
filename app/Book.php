@@ -34,12 +34,24 @@ class Book extends Model
         ]);
     }
     
-    public function ckeckin($user)
+    public function checkin($user)
     {
-        return $this->reservations()->where('user_id' , $user->id)
+        // otherwise , nothing will be found from this->reservations WHERE
+        $this->reservations()->create([
+            'user_id' => $user->id,
+            'checked_out_at' => now(),
+        ]);
+
+        $reservation = $this->reservations()->where('user_id' , $user->id)
             ->whereNotNull('checked_out_at')
             ->whereNull('checked_in_at')
             ->first();
+            
+// dd($reservation);
+
+        $reservation->update([
+            'checked_in_at' => now(),
+        ]);
     }
 
     public function reservations()
