@@ -14,6 +14,7 @@ class CheckoutBookController extends Controller
 
     public function store(Book $book)
     {
+        // dd(auth()->user());
         $book->checkout(auth()->user() );
     }
 }

@@ -37,11 +37,24 @@ class BookCheckoutTest extends TestCase
     {
 
         // $this->withoutExceptionHandling();
-
+        
         $book = factory(Book::class)->create();
 
         $this->post('/checkout/'. $book->id)
             ->assertRedirect('/login');
+
+        $this->assertCount(0, Reservation::all() );
+
+    }
+
+    /** @test      */
+    public function only_real_books_can_be_checked_out()
+    {
+
+        $response = $this->actingAs( $user = factory(User::class)->create() )
+            ->post('/checkout/123');
+
+        $response->assertStatus(404);
 
         $this->assertCount(0, Reservation::all() );
 

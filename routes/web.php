@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,3 +23,7 @@ Route::delete('/books/{book}', 'BooksController@destroy');
 Route::post('/author' , 'AuthorController@store');
 
 Route::post('/checkout/{book}', 'CheckoutBookController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
