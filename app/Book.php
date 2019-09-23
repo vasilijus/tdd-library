@@ -48,6 +48,10 @@ class Book extends Model
             ->first();
             
 // dd($reservation);
+        
+        if( is_null($reservation) ) {
+            throw new \Exception();
+        }
 
         $reservation->update([
             'checked_in_at' => now(),

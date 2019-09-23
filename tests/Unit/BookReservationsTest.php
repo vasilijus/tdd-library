@@ -35,9 +35,11 @@ class BookReservationsTest extends TestCase
         $user = factory(User::class)->create();
 
         $book->checkin($user);
+
         $this->assertCount(1, Reservation::all() );
         $this->assertEquals( $user->id , Reservation::first()->user_id );
         $this->assertEquals( $book->id , Reservation::first()->book_id );
+        $this->assertNotNull( Reservation::first()->checked_in_at );
         $this->assertEquals( now() , Reservation::first()->checked_out_at );
 
         // temp
@@ -49,6 +51,18 @@ class BookReservationsTest extends TestCase
 
     }
 
+    /**     @test     */
+    public function if_not_checked_out_exception_is_thrown()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $book = factory(Book::class)->create();
+        $user = factory(User::class)->create();
+
+        $book->checkin($user);
+
+        
+    }
     /**     @test     */
     public function a_user_can_check_out_a_book_twice()
     {
